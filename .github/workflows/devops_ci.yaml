@@ -1,6 +1,8 @@
 name: voter_app_devops_ci
 on: 
-  workflow_dispatch
+  push:
+    branches: [features/devops_ci]
+  workflow_dispatch:
 jobs: 
   validate-vote :
     runs-on: ubuntu-latest
@@ -26,6 +28,5 @@ jobs:
 
       - name: Format check
         run: ruff format --check .
-
       - name: Unit tests
         run: pytest unit-tests/
