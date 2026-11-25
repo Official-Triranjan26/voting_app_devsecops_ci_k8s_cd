@@ -30,3 +30,27 @@ jobs:
         run: ruff format --check .
       - name: Unit tests
         run: python -m pytest unit_testcases/
+  validate-result :
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: result
+    steps:
+      - name: checkout sourcecode
+        uses: actions/checkout@v7 
+
+      - name: setup node 18
+        uses: actions/setup-node@v7
+        with:
+          node-version: '18'
+          cache: npm
+          cache-dependency-path: result/package-lock.json
+
+      - name: install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm run test

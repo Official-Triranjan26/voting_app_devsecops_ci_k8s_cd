@@ -4,6 +4,7 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     app = express(),
     server = require('http').Server(app),
+    path = require('path'),
     io = require('socket.io')(server);
 var collectVotesFromResult = require('./votes').collectVotesFromResult;
 
@@ -25,7 +26,7 @@ var pool = new Pool({
 async.retry(
   {times: 1000, interval: 1000},
   function(callback) {
-    pool.connect(function(err, client, done) {
+    pool.connect(function(err, client) {
       if (err) {
         console.error("Waiting for db");
       }
