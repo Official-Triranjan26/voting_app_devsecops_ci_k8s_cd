@@ -5,6 +5,7 @@ var express = require('express'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server);
+var collectVotesFromResult = require('./votes').collectVotesFromResult;
 
 var port = process.env.PORT || 4000;
 
@@ -51,16 +52,6 @@ function getVotes(client) {
 
     setTimeout(function() {getVotes(client) }, 1000);
   });
-}
-
-function collectVotesFromResult(result) {
-  var votes = {a: 0, b: 0};
-
-  result.rows.forEach(function (row) {
-    votes[row.vote] = parseInt(row.count);
-  });
-
-  return votes;
 }
 
 app.use(cookieParser());

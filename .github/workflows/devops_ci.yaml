@@ -1,0 +1,31 @@
+name: voter_app_devops_ci
+on: 
+  workflow_dispatch
+jobs: 
+  validate-vote :
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: vote
+    steps:
+      - name: checkout sourcecode
+        uses: actions/checkout@v7 
+
+      - name: setup python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Format check
+        run: ruff format --check .
+
+      - name: Unit tests
+        run: pytest unit-tests/

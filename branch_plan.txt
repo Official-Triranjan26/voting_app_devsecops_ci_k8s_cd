@@ -1,0 +1,7 @@
+devops ci
+devsecops ci
+local kubernetes deployment
+gitOps with ArgoCD
+monitoring & logging
+Terraform infra provisioning
+EKS deployment
