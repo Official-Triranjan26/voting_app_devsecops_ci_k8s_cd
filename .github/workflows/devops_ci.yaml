@@ -29,4 +29,4 @@ jobs:
       - name: Format check
         run: ruff format --check .
       - name: Unit tests
-        run: pytest unit_testcases/
+        run: python -m pytest unit_testcases/
