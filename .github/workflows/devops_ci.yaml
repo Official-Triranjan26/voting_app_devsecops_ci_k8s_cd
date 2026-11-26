@@ -79,3 +79,29 @@ jobs:
 
       - name: Unit tests
         run: dotnet test
+
+  build-iamges_smoke-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout sourcecode
+        uses: actions/checkout@v7
+
+      - name: build images paralley
+        run: docker compose build--parallel
+
+      - name: start containers
+        run: docker compose up -d --wait --wait-timeout 120
+      
+      - name: confirm containers are running
+        run: docker ps
+
+      - name: Run smoke tests
+        run: bash scripts/smoke-test.sh
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Stop test environment
+        if: always()
+        run: docker compose down -v --remove-orphans
